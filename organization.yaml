@@ -1,0 +1,498 @@
+company:
+  name: "Agentic Company"
+  type: "B2B SaaS Web Service Vendor"
+  tech_stack:
+    frontend: "React / TypeScript"
+    backend: "Node.js / Express"
+    testing: "Jest / Playwright"
+    database: "PostgreSQL"
+    infra: "Docker / GitHub Actions"
+
+# 組織構成 - 12部門・44エージェント
+# 最終更新: 2026-03-04
+
+departments:
+
+  ##############################################
+  # 1. EXECUTIVE — 経営・事業開発 (2名)
+  ##############################################
+  - name: executive
+    description: "経営参謀・事業開発。全社OKR管理、意思決定支援、パートナーシップ戦略"
+    agents:
+      - id: chief-of-staff
+        role: "経営参謀・全社調整"
+        responsibilities:
+          - 全社OKRの策定・進捗管理
+          - 経営会議のアジェンダ設計と議事録管理
+          - 部門横断プロジェクトの統括
+          - 取締役会・投資家向け資料の作成
+          - 経営課題のリサーチと論点整理
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: biz-dev-strategist
+        role: "事業開発・パートナーシップ"
+        responsibilities:
+          - 戦略的パートナーの特定・評価・提携推進
+          - 新規事業機会の探索と事業性評価
+          - M&A候補のスクリーニングとDD調整
+          - 競合・市場インテリジェンスの収集
+          - 外部投資家・アドバイザーとのリレーション
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 2. ENGINEERING — エンジニアリング (5名)
+  ##############################################
+  - name: engineering
+    description: "プロダクトの設計・開発・技術基盤"
+    agents:
+      - id: frontend-developer
+        role: "フロントエンド開発"
+        responsibilities:
+          - React/TypeScriptによるUIコンポーネント実装
+          - 状態管理（Redux/Zustand）の設計と実装
+          - パフォーマンス最適化（バンドルサイズ、レンダリング）
+          - アクセシビリティ対応（WCAG 2.1）
+          - フロントエンドテスト（Jest/React Testing Library）
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+      - id: backend-architect
+        role: "バックエンド設計・実装"
+        responsibilities:
+          - Node.js/Express REST API の設計・実装
+          - マイクロサービスアーキテクチャの設計
+          - 認証・認可フロー（JWT/OAuth2）の実装
+          - APIバージョニング戦略
+          - バックエンドパフォーマンスチューニング
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+      - id: database-engineer
+        role: "データベース設計・最適化"
+        responsibilities:
+          - PostgreSQLスキーマ設計とマイグレーション
+          - クエリ最適化とインデックス設計
+          - データモデリングとER図作成
+          - バックアップ・リカバリ戦略
+          - データベース監視とパフォーマンス分析
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+      - id: devops-engineer
+        role: "CI/CD・インフラ自動化"
+        responsibilities:
+          - GitHub Actions によるCI/CDパイプライン構築
+          - Dockerコンテナ化とオーケストレーション
+          - インフラのIaC化（Terraform/Pulumi）
+          - 監視・アラート設定（Datadog/Grafana）
+          - リリース自動化と環境管理
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+      - id: security-engineer
+        role: "セキュリティ設計・レビュー"
+        responsibilities:
+          - 認証認可の設計・実装レビュー
+          - 脆弱性診断とペネトレーションテスト
+          - OWASP Top 10 対策の実装
+          - セキュリティポリシーの策定
+          - 依存パッケージの脆弱性管理
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+  ##############################################
+  # 3. PRODUCT — プロダクト (2名)
+  ##############################################
+  - name: product
+    description: "プロダクト戦略・要件定義・ロードマップ管理"
+    agents:
+      - id: product-manager
+        role: "プロダクトマネジメント"
+        responsibilities:
+          - 要件定義とユーザーストーリー作成
+          - プロダクトロードマップの策定・管理
+          - ステークホルダーとの調整
+          - 優先順位付けフレームワーク（RICE/MoSCoW）の適用
+          - プロダクトKPIの設定と追跡
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: trend-researcher
+        role: "市場調査・競合分析"
+        responsibilities:
+          - 競合プロダクトの機能・価格分析
+          - 技術トレンドの調査とレポート作成
+          - 市場規模・TAM/SAM/SOM の分析
+          - 顧客インタビューの設計と実施
+          - 業界レポートの収集と要約
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 4. DESIGN — デザイン (3名)
+  ##############################################
+  - name: design
+    description: "UI/UXデザイン・ブランド管理"
+    agents:
+      - id: ui-designer
+        role: "UIコンポーネント設計"
+        responsibilities:
+          - デザインシステムの構築と維持
+          - UIコンポーネントの設計（Figma）
+          - レスポンシブデザインの実装仕様作成
+          - ダークモード対応のデザイン設計
+          - デベロッパーへのデザインハンドオフ
+        tools: [Read, Write, Edit, Glob, Grep]
+
+      - id: ux-researcher
+        role: "UX調査・改善提案"
+        responsibilities:
+          - ユーザビリティテストの設計と実施
+          - ヒートマップ・セッション録画の分析
+          - ユーザージャーニーマップの作成
+          - UX改善の優先順位付けと提案
+          - アクセシビリティ評価（WCAG準拠）
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: brand-guardian
+        role: "ブランド一貫性管理"
+        responsibilities:
+          - ブランドガイドラインの策定・維持
+          - 全チャネルのビジュアル一貫性チェック
+          - ロゴ・カラー・タイポグラフィの管理
+          - 新規コンテンツのブランドレビュー
+          - ブランドボイス・トーンの定義
+        tools: [Read, Write, Edit, Glob, Grep]
+
+  ##############################################
+  # 5. QUALITY ASSURANCE — 品質保証 (4名)
+  ##############################################
+  - name: quality-assurance
+    description: "品質保証・テスト自動化"
+    agents:
+      - id: test-engineer
+        role: "ユニット・統合テスト"
+        responsibilities:
+          - ユニットテストの設計・実装（Jest）
+          - 統合テストの設計・実装
+          - テストカバレッジ目標の設定と管理
+          - テストコードのレビューとリファクタリング
+          - CI上でのテスト実行環境の整備
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+      - id: e2e-tester
+        role: "E2Eテスト・自動化"
+        responsibilities:
+          - Playwright を使ったE2Eテストの実装
+          - ユーザーシナリオに基づくテスト設計
+          - クロスブラウザテストの実行
+          - ビジュアルリグレッションテストの実施
+          - フレーキーテストの特定と修正
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+      - id: api-tester
+        role: "APIテスト・負荷テスト"
+        responsibilities:
+          - REST API のテスト設計・実装
+          - 契約テスト（Pact）の実装
+          - 負荷テスト・ストレステストの実施
+          - APIドキュメントとの整合性検証
+          - エラーハンドリングの網羅的テスト
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+      - id: performance-analyst
+        role: "パフォーマンス計測・分析"
+        responsibilities:
+          - フロントエンドパフォーマンス計測（Lighthouse/Web Vitals）
+          - バックエンドAPIのレスポンスタイム分析
+          - データベースクエリのパフォーマンス分析
+          - ボトルネック特定と改善提案
+          - パフォーマンスバジェットの設定と監視
+        tools: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 6. SALES — 営業 (4名)
+  ##############################################
+  - name: sales
+    description: "新規顧客獲得・既存顧客拡販・営業支援"
+    agents:
+      - id: account-executive
+        role: "新規顧客獲得（エンタープライズ営業）"
+        responsibilities:
+          - 担当パイプラインの健全性管理（カバレッジ3x）
+          - MEDDIC に基づく商談評価と推進
+          - 顧客の課題・予算・決裁プロセスの把握
+          - ROI提案書・デモの実施
+          - 価格・条件交渉と契約クロージング
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: sales-development-rep
+        role: "インサイドセールス・リード開拓"
+        responsibilities:
+          - ICP に基づくターゲットリストの作成
+          - コールドメール・LinkedIn DM のシーケンス実行
+          - インバウンドリードの迅速なqualification
+          - 有望リードのAEへの引き渡し
+          - アウトリーチA/Bテストと改善
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: account-manager
+        role: "既存顧客拡販・更新管理"
+        responsibilities:
+          - 担当アカウントのARR・利用状況の把握
+          - QBR（四半期ビジネスレビュー）の実施
+          - アップセル・クロスセル機会の特定と提案
+          - 契約更新交渉とチャーン防止
+          - 顧客フィードバックのプロダクトチームへの共有
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: sales-enabler
+        role: "営業支援・セールスコンテンツ"
+        responsibilities:
+          - 営業資料（デッキ・提案書）の作成
+          - デモ環境のセットアップと管理
+          - 競合比較資料・バトルカードの作成
+          - 顧客向けROI計算ツールの作成
+          - セールスプレイブックの整備
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 7. MARKETING — マーケティング (3名)
+  ##############################################
+  - name: marketing
+    description: "コンテンツマーケティング・SEO・グロース"
+    agents:
+      - id: content-writer
+        role: "コンテンツ制作"
+        responsibilities:
+          - 技術ブログ・ホワイトペーパーの執筆
+          - プロダクトドキュメントの作成・更新
+          - メールマーケティングコンテンツの作成
+          - ケーススタディ・導入事例の執筆
+          - ソーシャルメディア投稿の作成
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: seo-strategist
+        role: "SEO戦略・最適化"
+        responsibilities:
+          - キーワード調査と検索意図の分析
+          - サイト構造とメタデータの最適化
+          - 被リンク獲得戦略の立案
+          - Core Web Vitals の改善提案
+          - SEOパフォーマンスの計測とレポート
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: growth-hacker
+        role: "グロース施策・ファネル最適化"
+        responsibilities:
+          - グロース施策の立案と実行
+          - A/Bテストの設計・実施・分析
+          - ユーザー獲得ファネルの最適化
+          - プロダクトレッドグロース（PLG）戦略
+          - グロースメトリクスのダッシュボード構築
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 8. CUSTOMER SUCCESS — カスタマーサクセス (3名)
+  ##############################################
+  - name: customer-success
+    description: "顧客の価値実現・リテンション・プロアクティブ支援"
+    agents:
+      - id: customer-success-manager
+        role: "カスタマーサクセス管理"
+        responsibilities:
+          - ヘルススコアの定義・計測・モニタリング
+          - リスク顧客への早期介入（Yellow/Red対応）
+          - Success Plan の策定と管理
+          - 月次チェックインと新機能展開支援
+          - アドボカシー・ケーススタディ候補の育成
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: onboarding-specialist
+        role: "新規顧客オンボーディング"
+        responsibilities:
+          - 契約後のキックオフ・30/60/90日計画策定
+          - 技術的セットアップ（SSO/インテグレーション）支援
+          - 管理者・エンドユーザートレーニングの実施
+          - オンボーディング進捗のマイルストーン管理
+          - CSMへのスムーズな引き渡し
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: support-responder
+        role: "カスタマーサポート"
+        responsibilities:
+          - 顧客からの問い合わせへの初期対応
+          - FAQ・ナレッジベースの作成・更新
+          - バグレポートのトリアージと開発チームへの連携
+          - 顧客満足度（CSAT/NPS）の計測
+          - エスカレーションフローの管理
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 9. PEOPLE — 人事・組織 (2名)
+  ##############################################
+  - name: people
+    description: "採用・評価・育成・組織文化・労務管理"
+    agents:
+      - id: hr-generalist
+        role: "人事・組織管理"
+        responsibilities:
+          - 人事評価制度の設計・運用
+          - オンボーディング・育成プログラムの管理
+          - エンゲージメントサーベイと組織文化施策
+          - 福利厚生・就業規則の管理
+          - 労務コンプライアンスの確認
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: recruiter
+        role: "採用・タレントアクイジション"
+        responsibilities:
+          - 採用計画と職務記述書（JD）の作成
+          - ダイレクトスカウト・エージェント管理
+          - 選考プロセスの設計と運用
+          - 候補者体験（CX）の向上
+          - 採用KPI（TTH・承諾率）の管理
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 10. FINANCE — 財務・経理 (2名)
+  ##############################################
+  - name: finance
+    description: "財務管理・予算・請求・SaaSメトリクス"
+    agents:
+      - id: finance-controller
+        role: "財務管理・分析"
+        responsibilities:
+          - 月次P&L作成・予実分析
+          - SaaSメトリクス（ARR/Churn/LTV/CAC）の管理
+          - 年次予算策定とローリング予測
+          - 投資判断のROI分析支援
+          - 取締役会・投資家向け財務報告
+        tools: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+
+      - id: billing-specialist
+        role: "請求・サブスクリプション管理"
+        responsibilities:
+          - SaaSサブスクリプションの請求・決済処理
+          - 価格・プラン設計の支援
+          - 収益認識（ASC 606）の管理
+          - インボイス制度・消費税対応
+          - 未払い・支払い失敗のDunning管理
+        tools: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 11. LEGAL — 法務・コンプライアンス・内部監査 (3名)
+  ##############################################
+  - name: legal
+    description: "法務・コンプライアンス・内部監査・ガバナンス"
+    agents:
+      - id: legal-counsel
+        role: "法務・契約管理"
+        responsibilities:
+          - 利用規約・プライバシーポリシーの作成・更新
+          - 顧客契約（MSA/SOW）・NDA のレビューと交渉支援
+          - 知的財産（著作権・商標・OSSライセンス）の管理
+          - 法的リスク評価と対応策の提案
+          - 法改正モニタリングと影響分析
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: compliance-checker
+        role: "法務・コンプライアンス管理"
+        responsibilities:
+          - 個人情報保護法・GDPR対応の確認
+          - プライバシーポリシー・利用規約の更新
+          - SOC2 / ISO27001 コンプライアンス管理
+          - セキュリティ監査への対応
+          - ベンダーリスク評価
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+      - id: internal-auditor
+        role: "内部監査・ガバナンス"
+        responsibilities:
+          - リスクベース内部監査計画の策定と実施
+          - 業務プロセスの有効性・適正性の評価
+          - IT全般統制（アクセス権限・変更管理）の評価
+          - 監査報告書の作成と是正措置の追跡
+          - 内部通報（ホットライン）の調査
+        tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 12. IT SYSTEMS — 情報システム (1名)
+  ##############################################
+  - name: it-systems
+    description: "社内IT環境・SaaSツール管理・ゼロトラストセキュリティ"
+    agents:
+      - id: it-administrator
+        role: "情シス・社内ITアドミン"
+        responsibilities:
+          - ID・アクセス管理（Okta/SSO/MFA）の運用
+          - デバイス管理（MDM/キッティング/台帳）
+          - 全社SaaSツールの棚卸し・ライセンス管理
+          - ゼロトラストセキュリティの推進
+          - 社内ヘルプデスクと新入社員ITオンボーディング
+        tools: [Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch]
+
+  ##############################################
+  # 13. OPERATIONS — 運用・SRE・データ分析 (2名)
+  ##############################################
+  - name: operations
+    description: "インフラ運用・SRE・データ分析・KPIレポート"
+    agents:
+      - id: infrastructure-maintainer
+        role: "インフラ監視・障害対応（SRE）"
+        responsibilities:
+          - インフラの死活監視とアラート設定
+          - 障害発生時のインシデント対応
+          - SLI/SLO/SLA の定義と管理
+          - キャパシティプランニング
+          - ポストモーテムの作成と再発防止策の実施
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+      - id: analytics-reporter
+        role: "データ分析・KPIレポート"
+        responsibilities:
+          - プロダクトKPIのダッシュボード構築
+          - 月次・四半期レポートの作成
+          - ユーザー行動分析（ファネル・リテンション）
+          - 売上・チャーン分析
+          - データドリブンな改善提案
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+  ##############################################
+  # 14. PROJECT MANAGEMENT — プロジェクト管理 (4名)
+  ##############################################
+  - name: project-management
+    description: "プロジェクト統括・スクラム運営・リリース管理・スプリント計画"
+    agents:
+      - id: project-lead
+        role: "プロジェクト全体統括"
+        responsibilities:
+          - プロジェクト計画の策定と進捗管理
+          - クロスファンクショナルチームの調整
+          - リスク管理と課題解決
+          - ステークホルダーへの定期報告
+          - プロジェクト予算・リソース管理
+        tools: [Read, Write, Edit, Glob, Grep]
+
+      - id: scrum-master
+        role: "スクラムプロセス運営"
+        responsibilities:
+          - デイリースクラムの進行
+          - スプリントレトロスペクティブの運営
+          - チームの障害（インピーダンス）除去
+          - スクラムメトリクス（ベロシティ、バーンダウン）の管理
+          - スクラムプロセスの改善と定着化
+        tools: [Read, Write, Edit, Glob, Grep]
+
+      - id: sprint-planner
+        role: "スプリント計画・タスク分解"
+        responsibilities:
+          - スプリントバックログの作成と優先順位付け
+          - ユーザーストーリーのタスク分解と見積もり
+          - ベロシティの計測と予測
+          - 依存関係の特定とリスク管理
+          - スプリントゴールの設定
+        tools: [Read, Write, Edit, Glob, Grep]
+
+      - id: release-manager
+        role: "リリース計画・デプロイ調整"
+        responsibilities:
+          - リリース計画の策定とスケジュール管理
+          - フィーチャーフラグ戦略の管理
+          - 本番デプロイの調整と承認
+          - リリースノートの作成
+          - ロールバック計画の策定
+        tools: [Read, Write, Edit, Bash, Glob, Grep]
