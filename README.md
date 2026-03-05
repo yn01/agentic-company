@@ -2,7 +2,9 @@
 
 > B2B SaaS Webサービスベンダーを模した、Claude Code 向けエージェント組織定義リポジトリ
 
-Claude Code の [`.claude/agents/`](https://docs.anthropic.com/ja/docs/claude-code/sub-agents) 機能と Worktree を使い、実際の会社組織に対応した **52エージェント（orchestrator × 1 + department leads × 12 + メンバー × 38 + lead兼任 × 1）** を定義しています。
+Claude Code の [`.claude/agents/`](https://docs.anthropic.com/ja/docs/claude-code/sub-agents) 機能と Worktree を使い、実際の会社組織に対応した **52エージェント** を定義しています。
+
+本リポジトリは**組織定義のマスター**であり、実際のプロダクト開発は `create_product.sh` で生成した**プロダクトリポジトリ**で行います（Pattern D 方式）。
 
 ---
 
@@ -59,23 +61,44 @@ bash scripts/stop_worktrees.sh
 
 ## ファイル構成
 
+### agentic-company（このリポ）= 組織マスター
+
 ```
 agentic-company/
 ├── README.md               # このファイル
-├── CLAUDE.md               # Claude Code 向け運用指針
-├── organization.yaml       # 組織構成 SSOT（全エージェント定義）
+├── CLAUDE.md               # 運用指針（プロダクトリポにも同期）
+├── organization.yaml       # 組織構成 SSOT
 ├── docs/
 │   └── PLAN.md             # 設計方針・部門詳細・変更履歴
 ├── scripts/
-│   ├── start_worktrees.sh  # パイプライン選択式起動
-│   ├── stop_worktrees.sh   # 停止 + Obsidianアーカイブ
-│   └── watch_inbox.sh      # inbox監視（バックグラウンド）
+│   ├── create_product.sh   # 新プロダクトリポ生成
+│   ├── sync_agents.sh      # エージェント定義同期
+│   ├── start_worktrees.sh  # パイプライン起動（プロダクトにコピー）
+│   ├── stop_worktrees.sh   # 停止（プロダクトにコピー）
+│   └── watch_inbox.sh      # inbox監視（プロダクトにコピー）
+├── hooks/
+│   ├── post-commit-sync.sh # push型自動同期フック
+│   └── product_repos.txt   # 同期先プロダクトリポ一覧
 └── .claude/
-    ├── agents/             # エージェント定義（orchestrator + 14部門）
-    ├── messages/inbox/     # 各エージェントのメッセージ受信ボックス
-    ├── state/              # agent_status.json（idle/busy管理）
-    ├── logs/               # watch_inbox.sh ログ
-    └── worktrees/          # git worktree マウント先
+    └── agents/             # エージェント定義のみ（52エージェント）
+```
+
+### プロダクトリポ（`create_product.sh` で生成）
+
+```
+my-saas-app/
+├── CLAUDE.md               # org共通(自動同期) + プロダクト固有
+├── organization.yaml       # agentic-companyから同期
+├── scripts/                # agentic-companyから同期
+├── .claude/
+│   ├── sync_source.conf    # 同期元パス設定
+│   ├── agents/             # agentic-companyから同期
+│   ├── messages/inbox/     # エージェント間メッセージ
+│   ├── state/              # idle/busy管理
+│   ├── logs/               # watchログ
+│   └── worktrees/          # git worktreeマウント先
+├── src/                    # プロダクトソースコード
+└── docs/
 ```
 
 ---
@@ -103,33 +126,38 @@ agentic-company/
 
 ## 使い方
 
-### Worktree パイプラインで動かす
+### 1. 新プロダクトリポを生成
 
 ```bash
+bash scripts/create_product.sh /path/to/my-saas-app
+```
+
+### 2. プロダクトリポでパイプラインを起動
+
+```bash
+cd /path/to/my-saas-app
 bash scripts/start_worktrees.sh
-# → 1) プロダクト開発  2) カスタム
-# → 選択後、必要なエージェントが tmux + git worktree で起動
-# → orchestrator のウィンドウにタスクを入力するだけ
+# → 起動時にagentic-companyから最新を自動同期
+# → 1) プロダクト開発  2) カスタム を選択
+# → orchestrator のウィンドウに要件を入力するだけ
 ```
 
-### エージェントを直接呼び出す
+### 3. 同期の仕組み
 
-Claude Code のセッション内で、タスクに応じたエージェントが自動選択されます。
+| 方式 | タイミング | 仕組み |
+|------|-----------|--------|
+| Pull型（メイン） | `start_worktrees.sh` 実行時 | 冒頭で `sync_agents.sh` が自動実行 |
+| Push型（バックアップ） | agentic-companyでコミット時 | `post-commit-sync.sh` が登録済みリポに同期 |
 
-```
-例：「APIのセキュリティレビューをして」 → security-engineer が呼び出される
-例：「スプリント計画を立てて」          → sprint-planner が呼び出される
-```
+### 4. 組織構成を変更する
 
-### 組織構成を変更する
-
-`organization.yaml` が **Single Source of Truth** です。変更時は以下の順で更新します。
+`organization.yaml` が **Single Source of Truth** です。
 
 ```
-1. organization.yaml を更新
-2. .claude/agents/<department>/<agent>.md を更新（新規または編集）
+1. agentic-company で organization.yaml を更新
+2. .claude/agents/<department>/<agent>.md を更新
 3. docs/PLAN.md のテーブルを更新
-4. CLAUDE.md のクイックリファレンスを更新
+4. コミット → プロダクトリポに自動同期
 ```
 
 ---

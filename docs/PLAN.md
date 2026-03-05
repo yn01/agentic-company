@@ -198,109 +198,56 @@ bash scripts/stop_worktrees.sh    # 停止 + Obsidianアーカイブ
 
 ---
 
-## ファイル構成
+## アーキテクチャ: Pattern D（プロダクトリポ主体方式）
+
+agentic-company は**組織定義のマスター**。実際の開発は**プロダクトリポ**で行う。
+
+```
+agentic-company（組織マスター）     →  my-saas-app（プロダクトリポ）
+├── .claude/agents/  ──同期──→  ├── .claude/agents/
+├── scripts/         ──同期──→  ├── scripts/
+├── organization.yaml ─同期──→  ├── organization.yaml
+├── CLAUDE.md        ──同期──→  ├── CLAUDE.md（org部分のみ上書き）
+│                               ├── .claude/messages/inbox/  ← プロダクト固有
+│                               ├── .claude/state/           ← プロダクト固有
+│                               ├── .claude/worktrees/       ← プロダクト固有
+│                               └── src/                     ← プロダクトコード
+```
+
+### agentic-company のファイル構成
 
 ```
 agentic-company/
-├── CLAUDE.md                  # プロジェクト指示・クイックリファレンス
-├── organization.yaml          # 組織構成 SSOT
+├── CLAUDE.md               # 運用指針（プロダクトリポにも同期）
+├── README.md
+├── organization.yaml       # 組織構成 SSOT
 ├── docs/
-│   └── PLAN.md                # このファイル（設計方針・部門詳細）
+│   └── PLAN.md             # このファイル
 ├── scripts/
-│   ├── start_worktrees.sh     # パイプライン選択式起動
-│   ├── stop_worktrees.sh      # 停止 + Obsidianアーカイブ
-│   └── watch_inbox.sh         # inbox監視（バックグラウンド）
+│   ├── create_product.sh   # 新プロダクトリポ生成
+│   ├── sync_agents.sh      # エージェント定義同期
+│   ├── start_worktrees.sh  # パイプライン起動（プロダクトにコピー）
+│   ├── stop_worktrees.sh   # 停止（プロダクトにコピー）
+│   └── watch_inbox.sh      # inbox監視（プロダクトにコピー）
+├── hooks/
+│   ├── post-commit-sync.sh # push型自動同期フック
+│   └── product_repos.txt   # 同期先プロダクトリポ一覧
 └── .claude/
-    ├── agents/
-    │   ├── orchestrator.md            # 全社オーケストレーター [Opus]
-    │   ├── executive/
-    │   │   ├── chief-of-staff.md      # 戦略レイヤー・直接窓口
-    │   │   └── biz-dev-strategist.md
-    │   ├── engineering/
-    │   │   ├── engineering-lead.md    # 部門lead
-    │   │   ├── frontend-developer.md
-    │   │   ├── backend-architect.md
-    │   │   ├── database-engineer.md
-    │   │   ├── devops-engineer.md
-    │   │   └── security-engineer.md
-    │   ├── product/
-    │   │   ├── product-lead.md        # 部門lead
-    │   │   ├── product-manager.md
-    │   │   └── trend-researcher.md
-    │   ├── design/
-    │   │   ├── design-lead.md         # 部門lead
-    │   │   ├── ui-designer.md
-    │   │   ├── ux-researcher.md
-    │   │   └── brand-guardian.md
-    │   ├── quality-assurance/
-    │   │   ├── qa-lead.md             # 部門lead
-    │   │   ├── test-engineer.md
-    │   │   ├── e2e-tester.md
-    │   │   ├── api-tester.md
-    │   │   └── performance-analyst.md
-    │   ├── sales/
-    │   │   ├── sales-lead.md          # 部門lead
-    │   │   ├── account-executive.md
-    │   │   ├── sales-development-rep.md
-    │   │   ├── account-manager.md
-    │   │   └── sales-enabler.md
-    │   ├── marketing/
-    │   │   ├── marketing-lead.md      # 部門lead
-    │   │   ├── content-writer.md
-    │   │   ├── seo-strategist.md
-    │   │   └── growth-hacker.md
-    │   ├── customer-success/
-    │   │   ├── cs-lead.md             # 部門lead
-    │   │   ├── customer-success-manager.md
-    │   │   ├── onboarding-specialist.md
-    │   │   └── support-responder.md
-    │   ├── people/
-    │   │   ├── people-lead.md         # 部門lead
-    │   │   ├── hr-generalist.md
-    │   │   └── recruiter.md
-    │   ├── finance/
-    │   │   ├── finance-lead.md        # 部門lead
-    │   │   ├── finance-controller.md
-    │   │   └── billing-specialist.md
-    │   ├── legal/
-    │   │   ├── legal-lead.md          # 部門lead（on-demand）
-    │   │   ├── legal-counsel.md
-    │   │   ├── compliance-checker.md
-    │   │   └── internal-auditor.md
-    │   ├── it-systems/
-    │   │   └── it-administrator.md    # 1人部門・直接窓口
-    │   ├── operations/
-    │   │   ├── operations-lead.md     # 部門lead
-    │   │   ├── infrastructure-maintainer.md
-    │   │   └── analytics-reporter.md
-    │   └── project-management/
-    │       ├── project-lead.md        # 部門lead兼任（実行レイヤー）
-    │       ├── scrum-master.md
-    │       ├── sprint-planner.md
-    │       └── release-manager.md
-    ├── messages/
-    │   ├── inbox/                     # 各エージェントのメッセージ受信ボックス
-    │   │   ├── orchestrator/
-    │   │   ├── product-lead/
-    │   │   ├── engineering-lead/
-    │   │   ├── qa-lead/
-    │   │   ├── design-lead/
-    │   │   ├── sales-lead/
-    │   │   ├── marketing-lead/
-    │   │   ├── cs-lead/
-    │   │   ├── people-lead/
-    │   │   ├── finance-lead/
-    │   │   ├── legal-lead/
-    │   │   ├── operations-lead/
-    │   │   ├── project-lead/
-    │   │   ├── chief-of-staff/
-    │   │   └── [個別エージェント]/
-    │   ├── sent/                      # 送信済みメッセージ
-    │   └── processed/                 # 処理済みメッセージ
-    ├── state/
-    │   └── agent_status.json          # idle/busy管理
-    ├── logs/                          # watch_inbox.shのログ
-    └── worktrees/                     # git worktreeマウント先
+    └── agents/             # エージェント定義のみ（52エージェント）
+```
+
+### 同期忘れ防止
+
+| 方式 | タイミング | 仕組み |
+|------|-----------|--------|
+| **Pull型（メイン）** | `start_worktrees.sh` 実行時 | 冒頭で `sync_agents.sh` が自動実行 |
+| **Push型（バックアップ）** | agentic-companyでコミット時 | `post-commit-sync.sh` → 登録済みリポに同期 |
+
+### プロダクトリポの作り方
+
+```bash
+bash scripts/create_product.sh /path/to/my-saas-app
+echo "/path/to/my-saas-app" >> hooks/product_repos.txt
 ```
 
 ---
