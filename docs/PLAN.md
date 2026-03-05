@@ -54,7 +54,15 @@ bash scripts/stop_worktrees.sh    # 停止 + Obsidianアーカイブ
 
 ---
 
-## 組織構成（1 orchestrator + 12 leads + 14部門・45エージェント）
+## 組織構成（合計52エージェント）
+
+| カテゴリ | 数 | 内訳 |
+|---|---|---|
+| orchestrator | 1 | orchestrator |
+| department leads（専任） | 11 | product/engineering/qa/design/sales/marketing/cs/people/finance/legal/operations |
+| lead兼任（既存） | 2 | chief-of-staff（executive）, project-lead（project-management） |
+| メンバーエージェント | 38 | 各部門の個別エージェント |
+| **合計** | **52** | |
 
 ### orchestrator — 全社オーケストレーター
 | エージェント | 役割 | activation | model |

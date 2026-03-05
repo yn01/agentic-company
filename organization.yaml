@@ -8,7 +8,8 @@ company:
     database: "PostgreSQL"
     infra: "Docker / GitHub Actions"
 
-# 組織構成 - 15部門・49エージェント（orchestrator + 4 department leads 追加）
+# 組織構成 - 合計52エージェント
+# orchestrator × 1 + department leads × 12 + lead兼任 × 1 + メンバー × 38
 # 最終更新: 2026-03-05
 
 ##############################################

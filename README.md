@@ -2,7 +2,7 @@
 
 > B2B SaaS Webサービスベンダーを模した、Claude Code 向けエージェント組織定義リポジトリ
 
-Claude Code の [`.claude/agents/`](https://docs.anthropic.com/ja/docs/claude-code/sub-agents) 機能と Worktree を使い、実際の会社組織に対応した **1 orchestrator + 12 leads + 14部門・45エージェント** を定義しています。
+Claude Code の [`.claude/agents/`](https://docs.anthropic.com/ja/docs/claude-code/sub-agents) 機能と Worktree を使い、実際の会社組織に対応した **52エージェント（orchestrator × 1 + department leads × 12 + メンバー × 38 + lead兼任 × 1）** を定義しています。
 
 ---
 
