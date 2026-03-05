@@ -11,7 +11,7 @@ B2B SaaS（React + Node.js）を提供するWebサービスベンダーとして
 ## 組織階層
 
 ```
-Yohei（ユーザー）
+ユーザー
   └─ orchestrator [Opus]  ← 全社指揮・クロス部門調整
        ├─ product-lead [Sonnet]       → product-manager, trend-researcher
        ├─ engineering-lead [Sonnet]   → frontend-developer, backend-architect, database-engineer, devops-engineer, security-engineer

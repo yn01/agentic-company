@@ -13,7 +13,7 @@ company:
 # 最終更新: 2026-03-05
 # =============================================================================
 #
-# Yohei（ユーザー）
+# ユーザー（ユーザー）
 #   └─ orchestrator [Opus]                                          1名
 #        ├─ product-lead         → product-manager, trend-researcher          (1+2)
 #        ├─ engineering-lead     → frontend, backend, DB, DevOps, security    (1+5)
@@ -35,7 +35,7 @@ company:
 
 ##############################################
 # ORCHESTRATOR — 全社オーケストレーター
-# 階層: Yohei → orchestrator → department leads → individual agents
+# 階層: ユーザー → orchestrator → department leads → individual agents
 ##############################################
 orchestrator:
   id: orchestrator
@@ -43,12 +43,12 @@ orchestrator:
   model: "claude-opus-4-6"
   activation: always
   responsibilities:
-    - ユーザー（Yohei）の指示を受け取りタスクを分解
+    - ユーザー（ユーザー）の指示を受け取りタスクを分解
     - 適切なdepartment leadへのルーティング
     - クロス部門調整・優先順位付け
     - パイプライン全体の進捗追跡とユーザーへの報告
   message_routing:
-    receives_from: [Yohei, department-leads]
+    receives_from: [ユーザー, department-leads]
     sends_to: [product-lead, engineering-lead, qa-lead, release-manager, chief-of-staff]
 
 ##############################################

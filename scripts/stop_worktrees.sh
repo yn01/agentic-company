@@ -19,7 +19,7 @@ BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-OBSIDIAN_VAULT="/Users/yoheinakanishi/Documents/Obsidian/Claude-Dev"
+OBSIDIAN_VAULT="${OBSIDIAN_VAULT:-$HOME/Documents/Obsidian/Claude-Dev}"
 OBSIDIAN_MESSAGES_DIR="$OBSIDIAN_VAULT/agent-messages"
 
 echo -e "${BLUE}========================================${NC}"

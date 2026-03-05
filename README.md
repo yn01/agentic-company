@@ -11,7 +11,7 @@ Claude Code の [`.claude/agents/`](https://docs.anthropic.com/ja/docs/claude-co
 ## 組織構成
 
 ```
-Yohei（ユーザー）
+ユーザー
   └─ orchestrator [Opus]          全社指揮・ルーティング
        ├─ product-lead            → product-manager, trend-researcher
        ├─ engineering-lead        → frontend-developer, backend-architect, database-engineer, devops-engineer, security-engineer

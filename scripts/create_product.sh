@@ -21,8 +21,8 @@ if [ -z "$PRODUCT_PATH" ]; then
   echo "使い方: bash scripts/create_product.sh /path/to/new-product [product-name]"
   echo ""
   echo "例:"
-  echo "  bash scripts/create_product.sh /Users/yoheinakanishi/Dev/my-saas-app"
-  echo "  bash scripts/create_product.sh /Users/yoheinakanishi/Dev/my-saas-app my-saas"
+  echo "  bash scripts/create_product.sh /path/to/my-saas-app"
+  echo "  bash scripts/create_product.sh /path/to/my-saas-app my-saas"
   exit 1
 fi
 
