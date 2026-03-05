@@ -8,8 +8,116 @@ company:
     database: "PostgreSQL"
     infra: "Docker / GitHub Actions"
 
-# 組織構成 - 12部門・44エージェント
-# 最終更新: 2026-03-04
+# 組織構成 - 15部門・49エージェント（orchestrator + 4 department leads 追加）
+# 最終更新: 2026-03-05
+
+##############################################
+# ORCHESTRATOR — 全社オーケストレーター
+# 階層: Yohei → orchestrator → department leads → individual agents
+##############################################
+orchestrator:
+  id: orchestrator
+  role: "全社オーケストレーター"
+  model: "claude-opus-4-6"
+  activation: always
+  responsibilities:
+    - ユーザー（Yohei）の指示を受け取りタスクを分解
+    - 適切なdepartment leadへのルーティング
+    - クロス部門調整・優先順位付け
+    - パイプライン全体の進捗追跡とユーザーへの報告
+  message_routing:
+    receives_from: [Yohei, department-leads]
+    sends_to: [product-lead, engineering-lead, qa-lead, release-manager, chief-of-staff]
+
+##############################################
+# DEPARTMENT LEADS — 部門リード（サブオーケストレーター）
+##############################################
+department_leads:
+  - id: product-lead
+    department: product
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [product-manager, trend-researcher]
+
+  - id: engineering-lead
+    department: engineering
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [frontend-developer, backend-architect, database-engineer, devops-engineer, security-engineer]
+
+  - id: qa-lead
+    department: quality-assurance
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [test-engineer, e2e-tester, api-tester, performance-analyst]
+
+  - id: design-lead
+    department: design
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [ui-designer, ux-researcher, brand-guardian]
+
+  - id: sales-lead
+    department: sales
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [account-executive, sales-development-rep, account-manager, sales-enabler]
+
+  - id: marketing-lead
+    department: marketing
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [content-writer, seo-strategist, growth-hacker]
+
+  - id: cs-lead
+    department: customer-success
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [customer-success-manager, onboarding-specialist, support-responder]
+
+  - id: people-lead
+    department: people
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [hr-generalist, recruiter]
+
+  - id: finance-lead
+    department: finance
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [finance-controller, billing-specialist]
+
+  - id: legal-lead
+    department: legal
+    activation: on-demand
+    model: "claude-sonnet-4-6"
+    manages: [legal-counsel, compliance-checker, internal-auditor]
+
+  - id: operations-lead
+    department: operations
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [infrastructure-maintainer, analytics-reporter]
+
+  - id: project-lead
+    department: project-management
+    activation: always
+    model: "claude-sonnet-4-6"
+    manages: [scrum-master, sprint-planner, release-manager]
+    note: "既存エージェント。実行レイヤーのリードとして部門leadを兼任"
+
+  # 1人部門（lead兼任・orchestratorからの直接窓口）
+  - id: chief-of-staff
+    department: executive
+    activation: always
+    model: "claude-sonnet-4-6"
+    note: "executive部門は1人構成のためleadを兼任。orchestratorから直接連絡可"
+
+  - id: it-administrator
+    department: it-systems
+    activation: always
+    model: "claude-sonnet-4-6"
+    note: "it-systems部門は1人構成のためleadを兼任。orchestratorから直接連絡可"
 
 departments:
 
@@ -380,23 +488,26 @@ departments:
     description: "法務・コンプライアンス・内部監査・ガバナンス"
     agents:
       - id: legal-counsel
-        role: "法務・契約管理"
+        role: "法務・契約・知財（対外的法律行為）"
+        activation: on-demand
         responsibilities:
-          - 利用規約・プライバシーポリシーの作成・更新
           - 顧客契約（MSA/SOW）・NDA のレビューと交渉支援
           - 知的財産（著作権・商標・OSSライセンス）の管理
           - 法的リスク評価と対応策の提案
           - 法改正モニタリングと影響分析
+          - ※利用規約・プライバシーポリシーはcompliance-checkerが担当
         tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
 
       - id: compliance-checker
-        role: "法務・コンプライアンス管理"
+        role: "内部規程・認証・プライバシー（内部コンプライアンス）"
+        activation: on-demand
         responsibilities:
+          - 利用規約・プライバシーポリシーの作成・更新・管理
           - 個人情報保護法・GDPR対応の確認
-          - プライバシーポリシー・利用規約の更新
           - SOC2 / ISO27001 コンプライアンス管理
           - セキュリティ監査への対応
           - ベンダーリスク評価
+          - ※契約・交渉・知財はlegal-counselが担当
         tools: [Read, Write, Edit, Glob, Grep, WebSearch, WebFetch]
 
       - id: internal-auditor
@@ -458,13 +569,14 @@ departments:
     description: "プロジェクト統括・スクラム運営・リリース管理・スプリント計画"
     agents:
       - id: project-lead
-        role: "プロジェクト全体統括"
+        role: "実行レイヤー・プロジェクト統括"
+        activation: always
         responsibilities:
-          - プロジェクト計画の策定と進捗管理
-          - クロスファンクショナルチームの調整
-          - リスク管理と課題解決
-          - ステークホルダーへの定期報告
-          - プロジェクト予算・リソース管理
+          - スプリント単位での実行計画と日次進捗管理
+          - リソース・スケジュール・タスク依存関係の管理
+          - チーム内のブロッカー除去と課題解決（実行レベル）
+          - スプリント進捗のorchestratorへの報告
+          - ※戦略レイヤー（OKR・経営会議）はchief-of-staffが担当
         tools: [Read, Write, Edit, Glob, Grep]
 
       - id: scrum-master

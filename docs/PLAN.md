@@ -8,103 +8,185 @@ B2B SaaS（React + Node.js）を提供するWebサービスベンダーとして
 
 ---
 
-## 組織構成（14部門・44エージェント）
+## 組織階層
 
-### 1. executive/ — 経営・事業開発（2名）
-| エージェント | 役割 |
-|---|---|
-| chief-of-staff | 全社OKR管理、経営会議運営、部門横断調整、取締役会資料 |
-| biz-dev-strategist | パートナーシップ戦略、新規事業開発、M&A探索 |
+```
+Yohei（ユーザー）
+  └─ orchestrator [Opus]  ← 全社指揮・クロス部門調整
+       ├─ product-lead [Sonnet]       → product-manager, trend-researcher
+       ├─ engineering-lead [Sonnet]   → frontend-developer, backend-architect, database-engineer, devops-engineer, security-engineer
+       ├─ qa-lead [Sonnet]            → test-engineer, e2e-tester, api-tester, performance-analyst
+       ├─ design-lead [Sonnet]        → ui-designer, ux-researcher, brand-guardian
+       ├─ sales-lead [Sonnet]         → account-executive, sales-development-rep, account-manager, sales-enabler
+       ├─ marketing-lead [Sonnet]     → content-writer, seo-strategist, growth-hacker
+       ├─ cs-lead [Sonnet]            → customer-success-manager, onboarding-specialist, support-responder
+       ├─ people-lead [Sonnet]        → hr-generalist, recruiter
+       ├─ finance-lead [Sonnet]       → finance-controller, billing-specialist
+       ├─ legal-lead [Sonnet]         → legal-counsel, compliance-checker, internal-auditor  ※on-demand
+       ├─ operations-lead [Sonnet]    → infrastructure-maintainer, analytics-reporter
+       ├─ project-lead [Sonnet]       → scrum-master, sprint-planner, release-manager
+       ├─ chief-of-staff [Sonnet]     （executive部門・1人のため直接窓口）
+       └─ it-administrator [Sonnet]   （it-systems部門・1人のため直接窓口）
+```
 
-### 2. engineering/ — エンジニアリング（5名）
-| エージェント | 役割 |
-|---|---|
-| frontend-developer | React/TypeScriptによるフロントエンド開発 |
-| backend-architect | Node.js/Express APIの設計・実装 |
-| database-engineer | DB設計、クエリ最適化、マイグレーション |
-| devops-engineer | CI/CD、Docker、インフラ自動化 |
-| security-engineer | 認証認可、脆弱性対策、セキュリティレビュー |
+### メッセージルーティング原則
 
-### 3. product/ — プロダクト（2名）
-| エージェント | 役割 |
-|---|---|
-| product-manager | 要件定義、優先順位付け、ロードマップ管理 |
-| trend-researcher | 市場調査、競合分析、技術トレンド調査 |
+- orchestrator は **必ず部門lead のinboxにのみ** メッセージを送る
+- 個別エージェント（frontend-developer 等）への orchestrator からの直接送信は**禁止**
+- 例外: `chief-of-staff`（executive 1人部門）・`it-administrator`（it-systems 1人部門）は直接窓口
 
-### 4. design/ — デザイン（3名）
-| エージェント | 役割 |
-|---|---|
-| ui-designer | UIコンポーネント設計、デザインシステム |
-| ux-researcher | ユーザビリティ分析、UX改善提案 |
-| brand-guardian | ブランド一貫性、スタイルガイド管理 |
+### パイプライン: プロダクト開発
 
-### 5. quality-assurance/ — 品質保証（4名）
-| エージェント | 役割 |
-|---|---|
-| test-engineer | ユニット/統合テスト設計・実装 |
-| e2e-tester | E2Eテスト、Playwright自動化 |
-| api-tester | APIテスト、負荷テスト、契約テスト |
-| performance-analyst | パフォーマンス計測、ボトルネック分析 |
+```
+orchestrator
+  → product-lead → product-manager（要件定義・仕様書）
+  → engineering-lead → frontend-developer + backend-architect（実装）
+  → qa-lead → test-engineer + e2e-tester（テスト・品質承認）
+  → release-manager（リリース・コミット）
+```
 
-### 6. sales/ — 営業（4名）
-| エージェント | 役割 |
-|---|---|
-| account-executive | 新規顧客獲得、商談推進、クロージング |
-| sales-development-rep | インサイドセールス、リード開拓・qualification |
-| account-manager | 既存顧客拡販、QBR、更新交渉 |
-| sales-enabler | 営業資料、デモ準備、競合比較資料 |
+### Worktree起動
 
-### 7. marketing/ — マーケティング（3名）
-| エージェント | 役割 |
-|---|---|
-| content-writer | ブログ、ホワイトペーパー、ドキュメント作成 |
-| seo-strategist | SEO戦略、キーワード分析、テクニカルSEO |
-| growth-hacker | グロース施策、A/Bテスト、ファネル最適化 |
+```bash
+bash scripts/start_worktrees.sh   # パイプライン選択: プロダクト開発 or カスタム
+bash scripts/stop_worktrees.sh    # 停止 + Obsidianアーカイブ
+```
 
-### 8. customer-success/ — カスタマーサクセス（3名）
-| エージェント | 役割 |
-|---|---|
-| customer-success-manager | ヘルススコア管理、チャーン防止、Success Plan |
-| onboarding-specialist | 新規顧客導入支援、トレーニング、Time-to-Value最短化 |
-| support-responder | カスタマーサポート、FAQ管理、バグトリアージ |
+---
 
-### 9. people/ — 人事・組織（2名）
-| エージェント | 役割 |
-|---|---|
-| hr-generalist | 評価制度、育成、組織文化、労務管理 |
-| recruiter | 採用活動、JD作成、候補者選考、オファー |
+## 組織構成（1 orchestrator + 12 leads + 14部門・45エージェント）
 
-### 10. finance/ — 財務・経理（2名）
-| エージェント | 役割 |
-|---|---|
-| finance-controller | 財務管理、予算策定、SaaSメトリクス分析 |
-| billing-specialist | 請求処理、価格設計、収益認識、サブスク管理 |
+### orchestrator — 全社オーケストレーター
+| エージェント | 役割 | activation | model |
+|---|---|---|---|
+| orchestrator | 全社指揮・ルーティング・進捗追跡 | always | Opus |
 
-### 11. legal/ — 法務・コンプライアンス・内部監査（3名）
-| エージェント | 役割 |
-|---|---|
-| legal-counsel | 契約審査、知財管理、法的リスク評価 |
-| compliance-checker | GDPR/個人情報法、SOC2、ベンダーリスク評価 |
-| internal-auditor | 内部監査、内部統制評価、ガバナンス |
+### department leads — 部門リード一覧
+| エージェント | 管轄部門 | 管轄エージェント | activation |
+|---|---|---|---|
+| product-lead | product | product-manager, trend-researcher | always |
+| engineering-lead | engineering | frontend-developer, backend-architect, database-engineer, devops-engineer, security-engineer | always |
+| qa-lead | quality-assurance | test-engineer, e2e-tester, api-tester, performance-analyst | always |
+| design-lead | design | ui-designer, ux-researcher, brand-guardian | always |
+| sales-lead | sales | account-executive, sales-development-rep, account-manager, sales-enabler | always |
+| marketing-lead | marketing | content-writer, seo-strategist, growth-hacker | always |
+| cs-lead | customer-success | customer-success-manager, onboarding-specialist, support-responder | always |
+| people-lead | people | hr-generalist, recruiter | always |
+| finance-lead | finance | finance-controller, billing-specialist | always |
+| legal-lead | legal | legal-counsel, compliance-checker, internal-auditor | on-demand |
+| operations-lead | operations | infrastructure-maintainer, analytics-reporter | always |
+| project-lead | project-management | scrum-master, sprint-planner, release-manager | always |
+| chief-of-staff | executive（1人部門） | biz-dev-strategist | always（直接窓口） |
+| it-administrator | it-systems（1人部門） | — | always（直接窓口） |
 
-### 12. it-systems/ — 情報システム（1名）
-| エージェント | 役割 |
-|---|---|
-| it-administrator | 社内IT管理、SSO/MFA、SaaSツール管理、ゼロトラスト |
+---
 
-### 13. operations/ — 運用・SRE・データ分析（2名）
-| エージェント | 役割 |
-|---|---|
-| infrastructure-maintainer | インフラ監視、障害対応、SLO管理、SRE |
-| analytics-reporter | データ分析、KPIダッシュボード、レポート作成 |
+### 1. executive/ — 経営・事業開発
+| エージェント | 役割 | activation |
+|---|---|---|
+| chief-of-staff | OKR管理、経営会議運営、取締役会資料（＋orchestrator直接窓口） | always |
+| biz-dev-strategist | パートナーシップ戦略、新規事業開発、M&A探索 | on-demand |
 
-### 14. project-management/ — プロジェクト管理（4名）
-| エージェント | 役割 |
-|---|---|
-| project-lead | プロジェクト全体統括、進捗管理 |
-| scrum-master | スクラムプロセス運営、障害除去 |
-| sprint-planner | スプリント計画、タスク分解、見積もり |
-| release-manager | リリース計画、バージョン管理、デプロイ調整 |
+### 2. engineering/ — エンジニアリング（lead: engineering-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| engineering-lead | engineering部門サブオーケストレーター | always |
+| frontend-developer | React/TypeScriptによるフロントエンド開発 | always |
+| backend-architect | Node.js/Express APIの設計・実装 | always |
+| database-engineer | DB設計、クエリ最適化、マイグレーション | always |
+| devops-engineer | CI/CD、Docker、インフラ自動化 | always |
+| security-engineer | 認証認可、脆弱性対策、セキュリティレビュー | on-demand |
+
+### 3. product/ — プロダクト（lead: product-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| product-lead | product部門サブオーケストレーター | always |
+| product-manager | 要件定義、優先順位付け、ロードマップ管理 | always |
+| trend-researcher | 市場調査、競合分析、技術トレンド調査 | on-demand |
+
+### 4. design/ — デザイン（lead: design-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| design-lead | design部門サブオーケストレーター | always |
+| ui-designer | UIコンポーネント設計、デザインシステム | always |
+| ux-researcher | ユーザビリティ分析、UX改善提案 | on-demand |
+| brand-guardian | ブランド一貫性、スタイルガイド管理 | on-demand |
+
+### 5. quality-assurance/ — 品質保証（lead: qa-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| qa-lead | QA部門サブオーケストレーター | always |
+| test-engineer | ユニット/統合テスト設計・実装 | always |
+| e2e-tester | E2Eテスト、Playwright自動化 | always |
+| api-tester | APIテスト、負荷テスト、契約テスト | always |
+| performance-analyst | パフォーマンス計測、ボトルネック分析 | on-demand |
+
+### 6. sales/ — 営業（lead: sales-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| sales-lead | sales部門サブオーケストレーター | always |
+| account-executive | 新規顧客獲得、商談推進、クロージング | always |
+| sales-development-rep | インサイドセールス、リード開拓・qualification | always |
+| account-manager | 既存顧客拡販、QBR、更新交渉 | always |
+| sales-enabler | 営業資料、デモ準備、競合比較資料 | on-demand |
+
+### 7. marketing/ — マーケティング（lead: marketing-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| marketing-lead | marketing部門サブオーケストレーター | always |
+| content-writer | ブログ、ホワイトペーパー、ドキュメント作成 | always |
+| seo-strategist | SEO戦略、キーワード分析、テクニカルSEO | always |
+| growth-hacker | グロース施策、A/Bテスト、ファネル最適化 | on-demand |
+
+### 8. customer-success/ — カスタマーサクセス（lead: cs-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| cs-lead | customer-success部門サブオーケストレーター | always |
+| customer-success-manager | ヘルススコア管理、チャーン防止、Success Plan | always |
+| onboarding-specialist | 新規顧客導入支援、Time-to-Value最短化 | always |
+| support-responder | カスタマーサポート、FAQ管理、バグトリアージ | always |
+
+### 9. people/ — 人事・組織（lead: people-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| people-lead | people部門サブオーケストレーター | always |
+| hr-generalist | 評価制度、育成、組織文化、労務管理 | always |
+| recruiter | 採用活動、JD作成、候補者選考、オファー | always |
+
+### 10. finance/ — 財務・経理（lead: finance-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| finance-lead | finance部門サブオーケストレーター | always |
+| finance-controller | 財務管理、予算策定、SaaSメトリクス分析 | always |
+| billing-specialist | 請求処理、価格設計、収益認識、サブスク管理 | always |
+
+### 11. legal/ — 法務・コンプライアンス・内部監査（lead: legal-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| legal-lead | legal部門サブオーケストレーター | on-demand |
+| legal-counsel | 契約・交渉・知財（対外的法律行為） | on-demand |
+| compliance-checker | 利用規約・プライバシー・SOC2/GDPR（内部コンプライアンス） | on-demand |
+| internal-auditor | 内部監査、内部統制評価、ガバナンス | on-demand |
+
+### 12. it-systems/ — 情報システム（直接窓口）
+| エージェント | 役割 | activation |
+|---|---|---|
+| it-administrator | 社内IT管理、SSO/MFA、SaaSツール管理（lead兼任・直接窓口） | always |
+
+### 13. operations/ — 運用・SRE・データ分析（lead: operations-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| operations-lead | operations部門サブオーケストレーター | always |
+| infrastructure-maintainer | インフラ監視、障害対応、SLO管理、SRE | always |
+| analytics-reporter | データ分析、KPIダッシュボード、レポート作成 | always |
+
+### 14. project-management/ — プロジェクト管理（lead: project-lead）
+| エージェント | 役割 | activation |
+|---|---|---|
+| project-lead | 実行レイヤー統括・lead兼任（スプリント計画・進捗管理） | always |
+| scrum-master | スクラムプロセス運営、障害除去 | always |
+| sprint-planner | スプリント計画、タスク分解、見積もり | always |
+| release-manager | リリース計画、バージョン管理、デプロイ調整 | always |
 
 ---
 
@@ -112,65 +194,105 @@ B2B SaaS（React + Node.js）を提供するWebサービスベンダーとして
 
 ```
 agentic-company/
-├── organization.yaml          # 組織構成の正（SSOT）
+├── CLAUDE.md                  # プロジェクト指示・クイックリファレンス
+├── organization.yaml          # 組織構成 SSOT
 ├── docs/
-│   └── PLAN.md                # このファイル
-├── .claude/
-│   └── agents/
-│       ├── executive/
-│       │   ├── chief-of-staff.md
-│       │   └── biz-dev-strategist.md
-│       ├── engineering/
-│       │   ├── frontend-developer.md
-│       │   ├── backend-architect.md
-│       │   ├── database-engineer.md
-│       │   ├── devops-engineer.md
-│       │   └── security-engineer.md
-│       ├── product/
-│       │   ├── product-manager.md
-│       │   └── trend-researcher.md
-│       ├── design/
-│       │   ├── ui-designer.md
-│       │   ├── ux-researcher.md
-│       │   └── brand-guardian.md
-│       ├── quality-assurance/
-│       │   ├── test-engineer.md
-│       │   ├── e2e-tester.md
-│       │   ├── api-tester.md
-│       │   └── performance-analyst.md
-│       ├── sales/
-│       │   ├── account-executive.md
-│       │   ├── sales-development-rep.md
-│       │   ├── account-manager.md
-│       │   └── sales-enabler.md
-│       ├── marketing/
-│       │   ├── content-writer.md
-│       │   ├── seo-strategist.md
-│       │   └── growth-hacker.md
-│       ├── customer-success/
-│       │   ├── customer-success-manager.md
-│       │   ├── onboarding-specialist.md
-│       │   └── support-responder.md
-│       ├── people/
-│       │   ├── hr-generalist.md
-│       │   └── recruiter.md
-│       ├── finance/
-│       │   ├── finance-controller.md
-│       │   └── billing-specialist.md
-│       ├── legal/
-│       │   ├── legal-counsel.md
-│       │   ├── compliance-checker.md
-│       │   └── internal-auditor.md
-│       ├── it-systems/
-│       │   └── it-administrator.md
-│       ├── operations/
-│       │   ├── infrastructure-maintainer.md
-│       │   └── analytics-reporter.md
-│       └── project-management/
-│           ├── project-lead.md
-│           ├── scrum-master.md
-│           ├── sprint-planner.md
-│           └── release-manager.md
+│   └── PLAN.md                # このファイル（設計方針・部門詳細）
+├── scripts/
+│   ├── start_worktrees.sh     # パイプライン選択式起動
+│   ├── stop_worktrees.sh      # 停止 + Obsidianアーカイブ
+│   └── watch_inbox.sh         # inbox監視（バックグラウンド）
+└── .claude/
+    ├── agents/
+    │   ├── orchestrator.md            # 全社オーケストレーター [Opus]
+    │   ├── executive/
+    │   │   ├── chief-of-staff.md      # 戦略レイヤー・直接窓口
+    │   │   └── biz-dev-strategist.md
+    │   ├── engineering/
+    │   │   ├── engineering-lead.md    # 部門lead
+    │   │   ├── frontend-developer.md
+    │   │   ├── backend-architect.md
+    │   │   ├── database-engineer.md
+    │   │   ├── devops-engineer.md
+    │   │   └── security-engineer.md
+    │   ├── product/
+    │   │   ├── product-lead.md        # 部門lead
+    │   │   ├── product-manager.md
+    │   │   └── trend-researcher.md
+    │   ├── design/
+    │   │   ├── design-lead.md         # 部門lead
+    │   │   ├── ui-designer.md
+    │   │   ├── ux-researcher.md
+    │   │   └── brand-guardian.md
+    │   ├── quality-assurance/
+    │   │   ├── qa-lead.md             # 部門lead
+    │   │   ├── test-engineer.md
+    │   │   ├── e2e-tester.md
+    │   │   ├── api-tester.md
+    │   │   └── performance-analyst.md
+    │   ├── sales/
+    │   │   ├── sales-lead.md          # 部門lead
+    │   │   ├── account-executive.md
+    │   │   ├── sales-development-rep.md
+    │   │   ├── account-manager.md
+    │   │   └── sales-enabler.md
+    │   ├── marketing/
+    │   │   ├── marketing-lead.md      # 部門lead
+    │   │   ├── content-writer.md
+    │   │   ├── seo-strategist.md
+    │   │   └── growth-hacker.md
+    │   ├── customer-success/
+    │   │   ├── cs-lead.md             # 部門lead
+    │   │   ├── customer-success-manager.md
+    │   │   ├── onboarding-specialist.md
+    │   │   └── support-responder.md
+    │   ├── people/
+    │   │   ├── people-lead.md         # 部門lead
+    │   │   ├── hr-generalist.md
+    │   │   └── recruiter.md
+    │   ├── finance/
+    │   │   ├── finance-lead.md        # 部門lead
+    │   │   ├── finance-controller.md
+    │   │   └── billing-specialist.md
+    │   ├── legal/
+    │   │   ├── legal-lead.md          # 部門lead（on-demand）
+    │   │   ├── legal-counsel.md
+    │   │   ├── compliance-checker.md
+    │   │   └── internal-auditor.md
+    │   ├── it-systems/
+    │   │   └── it-administrator.md    # 1人部門・直接窓口
+    │   ├── operations/
+    │   │   ├── operations-lead.md     # 部門lead
+    │   │   ├── infrastructure-maintainer.md
+    │   │   └── analytics-reporter.md
+    │   └── project-management/
+    │       ├── project-lead.md        # 部門lead兼任（実行レイヤー）
+    │       ├── scrum-master.md
+    │       ├── sprint-planner.md
+    │       └── release-manager.md
+    ├── messages/
+    │   ├── inbox/                     # 各エージェントのメッセージ受信ボックス
+    │   │   ├── orchestrator/
+    │   │   ├── product-lead/
+    │   │   ├── engineering-lead/
+    │   │   ├── qa-lead/
+    │   │   ├── design-lead/
+    │   │   ├── sales-lead/
+    │   │   ├── marketing-lead/
+    │   │   ├── cs-lead/
+    │   │   ├── people-lead/
+    │   │   ├── finance-lead/
+    │   │   ├── legal-lead/
+    │   │   ├── operations-lead/
+    │   │   ├── project-lead/
+    │   │   ├── chief-of-staff/
+    │   │   └── [個別エージェント]/
+    │   ├── sent/                      # 送信済みメッセージ
+    │   └── processed/                 # 処理済みメッセージ
+    ├── state/
+    │   └── agent_status.json          # idle/busy管理
+    ├── logs/                          # watch_inbox.shのログ
+    └── worktrees/                     # git worktreeマウント先
 ```
 
 ---
