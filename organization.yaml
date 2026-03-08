@@ -10,25 +10,26 @@ company:
 
 # =============================================================================
 # 組織図（合計52エージェント）
-# 最終更新: 2026-03-05
+# 最終更新: 2026-03-08
 # =============================================================================
 #
-# ユーザー（ユーザー）
-#   └─ orchestrator [Opus]                                          1名
-#        ├─ product-lead         → product-manager, trend-researcher          (1+2)
-#        ├─ engineering-lead     → frontend, backend, DB, DevOps, security    (1+5)
-#        ├─ qa-lead              → test, e2e, api, performance                (1+4)
-#        ├─ design-lead          → ui, ux, brand                             (1+3)
-#        ├─ sales-lead           → AE, SDR, AM, enabler                      (1+4)
-#        ├─ marketing-lead       → content, SEO, growth                      (1+3)
-#        ├─ cs-lead              → CSM, onboarding, support                  (1+3)
-#        ├─ people-lead          → hr, recruiter                             (1+2)
-#        ├─ finance-lead         → controller, billing                       (1+2)
-#        ├─ legal-lead           → counsel, compliance, auditor [on-demand]  (1+3)
-#        ├─ operations-lead      → infra, analytics                          (1+2)
-#        ├─ project-lead(兼任)   → scrum, sprint, release                    (1+3)
-#        ├─ chief-of-staff(直接) → biz-dev-strategist                        (1+1)
-#        └─ it-administrator(直接)                                           (1)
+# ユーザー
+#   └─ orchestrator [Opus]                                                    1名
+#        │
+#        │  [PRODUCT]         product-lead      → product-manager, trend-researcher       (1+2)
+#        │  [ENGINEERING]     engineering-lead  → frontend, backend, DB, DevOps, security (1+5)
+#        │  [QA]              qa-lead           → test, e2e, api, performance              (1+4)
+#        │  [DESIGN]          design-lead       → ui, ux, brand                           (1+3)
+#        │  [SALES]           sales-lead        → AE, SDR, AM, enabler                    (1+4)
+#        │  [MARKETING]       marketing-lead    → content, SEO, growth                    (1+3)
+#        │  [CS]              cs-lead           → CSM, onboarding, support                (1+3)
+#        │  [PEOPLE]          people-lead       → hr, recruiter                           (1+2)
+#        │  [FINANCE]         finance-lead      → controller, billing                     (1+2)
+#        │  [LEGAL]           legal-lead        → counsel, compliance, auditor [on-demand](1+3)
+#        │  [OPERATIONS]      operations-lead   → infra, analytics                        (1+2)
+#        │  [PROJECT-MGMT]    project-lead(兼任)→ scrum, sprint, release                  (1+3)
+#        │  [EXECUTIVE]       chief-of-staff(直接窓口) → biz-dev-strategist               (1+1)
+#        └─ [IT-SYSTEMS]      it-administrator(直接窓口)                                  (1)
 #
 # ルール: orchestrator → lead のみ通信。個別エージェントへの直接指示は禁止。
 # =============================================================================
