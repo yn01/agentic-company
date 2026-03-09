@@ -9,15 +9,15 @@ company:
     infra: "Docker / GitHub Actions"
 
 # =============================================================================
-# 組織図（合計52エージェント）
-# 最終更新: 2026-03-08
+# 組織図（合計53エージェント）
+# 最終更新: 2026-03-09
 # =============================================================================
 #
 # ユーザー
 #   └─ orchestrator [Opus]                                                    1名
 #        │
 #        │  [PRODUCT]         product-lead      → product-manager, trend-researcher       (1+2)
-#        │  [ENGINEERING]     engineering-lead  → frontend, backend, DB, DevOps, security (1+5)
+#        │  [ENGINEERING]     engineering-lead  → frontend, backend, DB, DevOps, security, critic (1+6)
 #        │  [QA]              qa-lead           → test, e2e, api, performance              (1+4)
 #        │  [DESIGN]          design-lead       → ui, ux, brand                           (1+3)
 #        │  [SALES]           sales-lead        → AE, SDR, AM, enabler                    (1+4)
@@ -66,7 +66,7 @@ department_leads:
     department: engineering
     activation: always
     model: "claude-sonnet-4-6"
-    manages: [frontend-developer, backend-architect, database-engineer, devops-engineer, security-engineer]
+    manages: [frontend-developer, backend-architect, database-engineer, devops-engineer, security-engineer, technical-critic]
 
   - id: qa-lead
     department: quality-assurance
@@ -225,6 +225,18 @@ departments:
           - セキュリティポリシーの策定
           - 依存パッケージの脆弱性管理
         tools: [Read, Write, Edit, Bash, Glob, Grep]
+
+      - id: technical-critic
+        role: "技術批評家"
+        activation: on-demand
+        responsibilities:
+          - engineering-leadまたはbackend-architectが作成した設計・実装プランを受け取る
+          - 問題点・技術的負債・スケーラビリティリスクを列挙する
+          - 前提への疑問と代替アプローチを最低2案提示する
+          - セキュリティ・パフォーマンス・保守性の観点から評価する
+          - Architectと並列実行してdual-perspective reviewを実現する
+        tools: [Read, Glob, Grep, WebSearch]
+        note: "on-demand。大きめのタスクの設計フェーズでbackend-architectと並列実行する"
 
   ##############################################
   # 3. PRODUCT — プロダクト (2名)
