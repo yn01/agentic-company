@@ -79,7 +79,15 @@ agentic-company/
 │   ├── sync_agents.sh      # エージェント定義同期
 │   ├── start_worktrees.sh  # パイプライン選択式起動（プロダクトリポにコピーされる）
 │   ├── stop_worktrees.sh   # 停止（プロダクトリポにコピーされる）
-│   └── watch_inbox.sh      # inbox監視（プロダクトリポにコピーされる）
+│   ├── watch_inbox.sh      # inbox監視（プロダクトリポにコピーされる）
+│   └── watch_crm_events.sh # CRMイベント監視（CRMパイプライン用）
+├── data/
+│   └── crm/                # CRMモックデータ（マーケティングパイプライン用）
+│       ├── raw/             # Salesforce形式（Account/Lead/Opportunity）
+│       ├── normalized/      # Claude Agent向け正規化データ
+│       ├── events/          # イベントキュー（status: pending → 自動検知）
+│       ├── campaigns/       # キャンペーン定義・結果
+│       └── output/          # エージェントが生成した成果物
 ├── hooks/
 │   ├── post-commit-sync.sh # push型自動同期フック
 │   └── product_repos.txt   # 同期先プロダクトリポ一覧

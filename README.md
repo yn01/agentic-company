@@ -37,7 +37,9 @@ Claude Code の [`.claude/agents/`](https://docs.anthropic.com/ja/docs/claude-co
 
 ---
 
-## パイプライン: プロダクト開発
+## パイプライン
+
+### 1. プロダクト開発
 
 ```
 orchestrator
@@ -47,15 +49,43 @@ orchestrator
   → release-manager（リリース・コミット）
 ```
 
+起動エージェント（10名）: orchestrator, product-lead, product-manager, engineering-lead, frontend-developer, backend-architect, qa-lead, test-engineer, e2e-tester, release-manager
+
+### 2. CRMマーケティング
+
+CRMイベント（リード変化・チャーンリスク・アップセル・MQL等）をトリガーに、marketing/sales/cs の3部門が連携してアクションを生成するパイプライン。
+
+```
+data/crm/events/*.json (status: pending)
+  ↓ watch_crm_events.sh が検知・routing_hint で振り分け
+  marketing-lead / sales-lead / cs-lead
+  ↓ 各leadが担当メンバーに委託
+  data/crm/output/<EVT-ID>/
+    summary.md / email_draft.md / next_actions.md
+```
+
+起動エージェント（10名）: orchestrator, marketing-lead, growth-hacker, content-writer, sales-lead, account-executive, account-manager, sales-development-rep, cs-lead, customer-success-manager
+
+イベント種別とルーティング:
+
+| イベント | 優先度 | 担当 |
+|---------|--------|------|
+| `lead_status_change` | high | sales-lead |
+| `renewal_risk_alert` | critical | cs-lead |
+| `upsell_signal` | medium | sales-lead |
+| `new_mql` | medium | marketing-lead |
+
 ### Worktree 起動
 
 ```bash
-# パイプライン選択式起動（プロダクト開発 or カスタム）
+# パイプライン選択式起動（1: プロダクト開発 / 2: CRMマーケティング / 3: カスタム）
 bash scripts/start_worktrees.sh
 
 # 停止（Obsidianアーカイブ + tmux終了）
 bash scripts/stop_worktrees.sh
 ```
+
+CRMパイプライン起動後、`data/crm/events/` に `status: "pending"` のJSONを追加するとイベントが自動的に流れます。
 
 ---
 
@@ -70,12 +100,19 @@ agentic-company/
 ├── organization.yaml       # 組織構成 SSOT
 ├── docs/
 │   └── PLAN.md             # 設計方針・部門詳細・変更履歴
+├── data/
+│   └── crm/                # CRMモックデータ（マーケティングパイプライン用）
+│       ├── raw/             # Salesforce形式（Account/Lead/Opportunity）
+│       ├── normalized/      # Claude Agent向け正規化データ
+│       ├── events/          # イベントキュー
+│       └── output/          # エージェント生成成果物
 ├── scripts/
 │   ├── create_product.sh   # 新プロダクトリポ生成
 │   ├── sync_agents.sh      # エージェント定義同期
 │   ├── start_worktrees.sh  # パイプライン起動（プロダクトにコピー）
 │   ├── stop_worktrees.sh   # 停止（プロダクトにコピー）
-│   └── watch_inbox.sh      # inbox監視（プロダクトにコピー）
+│   ├── watch_inbox.sh      # inbox監視（プロダクトにコピー）
+│   └── watch_crm_events.sh # CRMイベント監視
 ├── hooks/
 │   ├── post-commit-sync.sh # push型自動同期フック
 │   └── product_repos.txt   # 同期先プロダクトリポ一覧
@@ -138,7 +175,7 @@ bash scripts/create_product.sh /path/to/my-saas-app
 cd /path/to/my-saas-app
 bash scripts/start_worktrees.sh
 # → 起動時にagentic-companyから最新を自動同期
-# → 1) プロダクト開発  2) カスタム を選択
+# → 1) プロダクト開発  2) CRMマーケティング  3) カスタム を選択
 # → orchestrator のウィンドウに要件を入力するだけ
 ```
 

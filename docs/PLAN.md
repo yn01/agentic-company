@@ -35,7 +35,7 @@ B2B SaaS（React + Node.js）を提供するWebサービスベンダーとして
 - 個別エージェント（frontend-developer 等）への orchestrator からの直接送信は**禁止**
 - 例外: `chief-of-staff`（executive 1人部門）・`it-administrator`（it-systems 1人部門）は直接窓口
 
-### パイプライン: プロダクト開発
+### パイプライン1: プロダクト開発
 
 ```
 orchestrator
@@ -45,10 +45,52 @@ orchestrator
   → release-manager（リリース・コミット）
 ```
 
+起動エージェント（10名）: orchestrator, product-lead, product-manager, engineering-lead, frontend-developer, backend-architect, qa-lead, test-engineer, e2e-tester, release-manager
+
+### パイプライン2: CRMマーケティング
+
+CRMイベントをトリガーに marketing/sales/cs の3部門が連携し、メール文案・提案書・次のアクションを自動生成するパイプライン。
+
+```
+data/crm/events/*.json (status: pending)
+  ↓ scripts/watch_crm_events.sh が10秒ごとにポーリング
+  ↓ routing_hint に基づき対応leadのinboxへ投入
+  marketing-lead / sales-lead / cs-lead
+  ↓ watch_inbox.sh が検知してtmuxに送信
+  ↓ 各leadが担当メンバーに委託
+  data/crm/output/<EVT-ID>/
+    summary.md / email_draft.md / next_actions.md
+```
+
+起動エージェント（10名）: orchestrator, marketing-lead, growth-hacker, content-writer, sales-lead, account-executive, account-manager, sales-development-rep, cs-lead, customer-success-manager
+
+イベント種別とルーティング:
+
+| イベント種別 | 優先度 | routing_hint | 担当部門 |
+|------------|--------|-------------|---------|
+| `lead_status_change` | high | sales_lead | 営業 |
+| `renewal_risk_alert` | critical | cs_lead | CS |
+| `upsell_signal` | medium | sales_lead | 営業 |
+| `new_mql` | medium | marketing_lead | マーケティング |
+| `support_escalation` | critical | cs_lead | CS |
+| `nps_detractor` | high | cs_lead | CS |
+| `competitor_mention` | high | sales_lead | 営業 |
+
+CRMデータ構成（`data/crm/`）:
+
+```
+data/crm/
+├── raw/         # Salesforce形式（SF APIエクスポートに近い生データ）
+├── normalized/  # Claude Agent向け正規化データ（snake_case）
+├── events/      # イベントキュー（status: pending → processing → done）
+├── campaigns/   # キャンペーン定義・結果
+└── output/      # エージェント生成成果物
+```
+
 ### Worktree起動
 
 ```bash
-bash scripts/start_worktrees.sh   # パイプライン選択: プロダクト開発 or カスタム
+bash scripts/start_worktrees.sh   # パイプライン選択: 1) プロダクト開発 / 2) CRMマーケティング / 3) カスタム
 bash scripts/stop_worktrees.sh    # 停止 + Obsidianアーカイブ
 ```
 
@@ -223,12 +265,19 @@ agentic-company/
 ├── organization.yaml       # 組織構成 SSOT
 ├── docs/
 │   └── PLAN.md             # このファイル
+├── data/
+│   └── crm/                # CRMモックデータ（マーケティングパイプライン用）
+│       ├── raw/             # Salesforce形式（Account/Lead/Opportunity）
+│       ├── normalized/      # Claude Agent向け正規化データ
+│       ├── events/          # イベントキュー
+│       └── output/          # エージェント生成成果物
 ├── scripts/
 │   ├── create_product.sh   # 新プロダクトリポ生成
 │   ├── sync_agents.sh      # エージェント定義同期
 │   ├── start_worktrees.sh  # パイプライン起動（プロダクトにコピー）
 │   ├── stop_worktrees.sh   # 停止（プロダクトにコピー）
-│   └── watch_inbox.sh      # inbox監視（プロダクトにコピー）
+│   ├── watch_inbox.sh      # inbox監視（プロダクトにコピー）
+│   └── watch_crm_events.sh # CRMイベント監視（CRMパイプライン用）
 ├── hooks/
 │   ├── post-commit-sync.sh # push型自動同期フック
 │   └── product_repos.txt   # 同期先プロダクトリポ一覧
