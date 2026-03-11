@@ -1,0 +1,23 @@
+{
+  "attributes": { "type": "Lead", "url": "/services/data/v58.0/sobjects/Lead/00QL2002" },
+  "Id": "00QL2002",
+  "FirstName": "花子",
+  "LastName": "山田",
+  "Company": "スタートアップ株式会社",
+  "Title": "CEO",
+  "Industry": "Finance",
+  "NumberOfEmployees": 30,
+  "Status": "Open - Not Contacted",
+  "LeadSource": "Web",
+  "Rating": "Warm",
+  "OwnerId": "005U0002",
+  "CreatedDate": "2026-03-08T00:00:00.000+0000",
+  "LastActivityDate": "2026-03-08",
+  "Custom_DemoCompleted__c": false,
+  "Custom_DemoDate__c": null,
+  "Custom_LeadScore__c": 45,
+  "Custom_PainPoints__c": "cost_reduction;automation",
+  "Custom_CompetitorsEvaluating__c": null,
+  "Custom_EstimatedDealValue__c": 1200000,
+  "Custom_ExpectedCloseDate__c": null
+}

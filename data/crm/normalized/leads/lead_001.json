@@ -1,0 +1,25 @@
+{
+  "id": "L-2001",
+  "company_name": "フューチャー工業",
+  "industry": "manufacturing",
+  "size": "mid-market",
+  "employees": 200,
+  "estimated_deal_value": 4800000,
+  "status": "proposal_pending",
+  "source": "inbound_demo_request",
+  "score": 78,
+  "contact": {
+    "role": "IT Manager",
+    "department": "it"
+  },
+  "timeline": {
+    "created": "2026-02-01",
+    "last_activity": "2026-03-04",
+    "days_stale": 7,
+    "demo_completed": "2026-02-28",
+    "expected_close": "2026-04-30"
+  },
+  "pain_points": ["manual_reporting", "lack_of_integration", "scalability"],
+  "competitors_evaluating": ["competitor_A", "competitor_B"],
+  "next_action": "send_proposal"
+}

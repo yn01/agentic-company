@@ -40,6 +40,20 @@ PIPELINE_PRODUCT_DEV=(
   "release-manager"
 )
 
+# パイプライン2: CRMマーケティング (CRMイベント → marketing/sales/cs → output)
+PIPELINE_CRM_MARKETING=(
+  "orchestrator"
+  "marketing-lead"
+  "growth-hacker"
+  "content-writer"
+  "sales-lead"
+  "account-executive"
+  "account-manager"
+  "sales-development-rep"
+  "cs-lead"
+  "customer-success-manager"
+)
+
 # モデル定義 (macOS bash 3.2対応のためcase文を使用)
 get_model() {
   case "$1" in
@@ -54,6 +68,9 @@ get_model() {
 get_all_pipeline_agents() {
   local -a all=()
   for a in "${PIPELINE_PRODUCT_DEV[@]}"; do
+    all+=("$a")
+  done
+  for a in "${PIPELINE_CRM_MARKETING[@]}"; do
     all+=("$a")
   done
   # 重複除去して出力
@@ -111,12 +128,18 @@ echo "     エージェント: orchestrator, product-lead, product-manager,"
 echo "                   engineering-lead, frontend-developer, backend-architect,"
 echo "                   qa-lead, test-engineer, e2e-tester, release-manager"
 echo ""
-echo "  2) カスタム  (エージェントを個別に選択)"
+echo "  2) CRMマーケティング  (CRMイベント → marketing/sales/cs → output)"
+echo "     エージェント: orchestrator, marketing-lead, growth-hacker, content-writer,"
+echo "                   sales-lead, account-executive, account-manager, SDR,"
+echo "                   cs-lead, customer-success-manager"
 echo ""
-read -p "選択 [1-2]: " pipeline_choice
+echo "  3) カスタム  (エージェントを個別に選択)"
+echo ""
+read -p "選択 [1-3]: " pipeline_choice
 
 LAUNCH_AGENTS=()
 PIPELINE_NAME=""
+CRM_MODE=false
 
 case $pipeline_choice in
   1)
@@ -124,6 +147,11 @@ case $pipeline_choice in
     LAUNCH_AGENTS=("${PIPELINE_PRODUCT_DEV[@]}")
     ;;
   2)
+    PIPELINE_NAME="CRMマーケティング"
+    LAUNCH_AGENTS=("${PIPELINE_CRM_MARKETING[@]}")
+    CRM_MODE=true
+    ;;
+  3)
     PIPELINE_NAME="カスタム"
     # 全エージェント候補（アルファベット順）
     ALL_AGENTS=(
@@ -320,6 +348,41 @@ for agent in "${LAUNCH_AGENTS[@]}"; do
   fi
 done
 
+# =============================================================================
+# [6/6] CRMモード: イベント監視を追加起動
+# =============================================================================
+if [ "$CRM_MODE" = true ]; then
+  echo ""
+  echo -e "${YELLOW}[6/6] CRMイベント監視を起動します...${NC}"
+
+  # data/crm/events/ の pending イベントをリセットするか確認
+  PENDING_COUNT=$(grep -rl '"status": "processing"' "$PROJECT_ROOT/data/crm/events/" 2>/dev/null | wc -l | tr -d ' ')
+  if [ "$PENDING_COUNT" -gt 0 ]; then
+    echo -e "  ${YELLOW}⚠ processing状態のイベントが ${PENDING_COUNT}件あります。pendingに戻しますか？ [y/n]${NC}"
+    read -p "  > " reset_yn
+    if [[ "$reset_yn" =~ ^[Yy]$ ]]; then
+      for f in "$PROJECT_ROOT/data/crm/events/"*.json; do
+        [ -f "$f" ] || continue
+        if command -v jq &>/dev/null; then
+          status=$(jq -r '.status' "$f" 2>/dev/null)
+          if [ "$status" = "processing" ]; then
+            tmp=$(mktemp)
+            jq '.status = "pending"' "$f" > "$tmp" && mv "$tmp" "$f"
+            echo "  ✓ $(basename "$f") → pending にリセット"
+          fi
+        fi
+      done
+    fi
+  fi
+
+  bash "$PROJECT_ROOT/scripts/watch_crm_events.sh" \
+    >> "$PROJECT_ROOT/.claude/logs/watch_crm_events.log" 2>&1 &
+  CRM_WATCHER_PID=$!
+  echo "  → CRMイベント監視開始 (PID: $CRM_WATCHER_PID)"
+  echo "$CRM_WATCHER_PID" >> "$PROJECT_ROOT/.claude/state/watch_pids.txt"
+  echo -e "${GREEN}✓ CRMイベント監視起動完了${NC}"
+fi
+
 echo ""
 echo -e "${GREEN}========================================${NC}"
 echo -e "${GREEN}  起動完了！${NC}"
@@ -328,12 +391,28 @@ echo ""
 echo "パイプライン: $PIPELINE_NAME"
 echo "起動エージェント数: ${#LAUNCH_AGENTS[@]}"
 echo ""
-echo "次のステップ："
-echo "  orchestratorセッションで以下を入力："
-echo ""
-echo -e "${BLUE}  あなたはAgentic CompanyのOrchestratorです。${NC}"
-echo -e "${BLUE}  CLAUDE.mdとdocs/PLAN.mdを読み、ユーザーの指示に従って${NC}"
-echo -e "${BLUE}  適切な部門leadのinboxにメッセージを送信してください。${NC}"
+
+if [ "$CRM_MODE" = true ]; then
+  echo "次のステップ："
+  echo "  1. orchestratorセッションで以下を入力："
+  echo ""
+  echo -e "${BLUE}  あなたはAgentic CompanyのOrchestratorです。${NC}"
+  echo -e "${BLUE}  CLAUDE.mdとdata/crm/README.mdを読み、CRMイベントへの対応を${NC}"
+  echo -e "${BLUE}  marketing-lead / sales-lead / cs-lead に委託してください。${NC}"
+  echo ""
+  echo "  2. CRMイベントを追加するには:"
+  echo "     data/crm/events/ に status:pending のJSONを追加してください"
+  echo "     → watch_crm_events.sh が自動検知して対応leadのinboxに投入します"
+  echo ""
+  echo -e "  ログ: ${BLUE}tail -f .claude/logs/watch_crm_events.log${NC}"
+else
+  echo "次のステップ："
+  echo "  orchestratorセッションで以下を入力："
+  echo ""
+  echo -e "${BLUE}  あなたはAgentic CompanyのOrchestratorです。${NC}"
+  echo -e "${BLUE}  CLAUDE.mdとdocs/PLAN.mdを読み、ユーザーの指示に従って${NC}"
+  echo -e "${BLUE}  適切な部門leadのinboxにメッセージを送信してください。${NC}"
+fi
 echo ""
 echo "停止時: bash scripts/stop_worktrees.sh"
 echo ""

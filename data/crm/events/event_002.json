@@ -1,0 +1,23 @@
+{
+  "id": "EVT-3002",
+  "type": "renewal_risk_alert",
+  "priority": "critical",
+  "timestamp": "2026-03-11T09:05:00+09:00",
+  "status": "pending",
+  "subject": {
+    "entity_type": "Account",
+    "entity_id": "001A1001",
+    "raw_ref": "../raw/Account/001A1001.json",
+    "normalized_ref": "../normalized/accounts/account_001.json"
+  },
+  "payload": {
+    "health_score": 72,
+    "health_score_trend": "declining",
+    "health_score_30d_ago": 85,
+    "days_to_renewal": 21,
+    "arr_at_risk": 12000000,
+    "churn_indicators": ["low_advanced_feature_adoption", "reduced_login_frequency"]
+  },
+  "routing_hint": "cs_lead",
+  "required_actions": ["executive_outreach", "qbr_scheduling", "feature_adoption_campaign"]
+}

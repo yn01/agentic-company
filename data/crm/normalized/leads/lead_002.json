@@ -1,0 +1,25 @@
+{
+  "id": "L-2002",
+  "company_name": "スタートアップ株式会社",
+  "industry": "fintech",
+  "size": "smb",
+  "employees": 30,
+  "estimated_deal_value": 1200000,
+  "status": "mql",
+  "source": "content_download",
+  "score": 45,
+  "contact": {
+    "role": "CEO",
+    "department": "executive"
+  },
+  "timeline": {
+    "created": "2026-03-08",
+    "last_activity": "2026-03-08",
+    "days_stale": 3,
+    "demo_completed": null,
+    "expected_close": null
+  },
+  "pain_points": ["cost_reduction", "automation"],
+  "competitors_evaluating": [],
+  "next_action": "nurture_sequence"
+}

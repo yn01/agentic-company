@@ -1,0 +1,17 @@
+{
+  "id": "O-2002",
+  "name": "グローバル商事 - Enterprise Upsell",
+  "account_id": "A-1002",
+  "lead_id": null,
+  "stage": "needs_analysis",
+  "amount": 2400000,
+  "close_date": "2026-06-30",
+  "probability": 30,
+  "source": "existing_customer",
+  "timeline": {
+    "created": "2026-03-01",
+    "last_activity": "2026-03-10",
+    "days_since_last_contact": 1
+  },
+  "next_action": "needs_analysis_call"
+}

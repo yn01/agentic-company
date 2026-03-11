@@ -1,0 +1,18 @@
+{
+  "attributes": { "type": "Account", "url": "/services/data/v58.0/sobjects/Account/001A1001" },
+  "Id": "001A1001",
+  "Name": "テック株式会社",
+  "Industry": "Technology",
+  "Type": "Customer",
+  "BillingCountry": "Japan",
+  "NumberOfEmployees": 500,
+  "AnnualRevenue": 500000000,
+  "OwnerId": "005U0001",
+  "CreatedDate": "2025-03-15T00:00:00.000+0000",
+  "LastModifiedDate": "2026-03-10T12:00:00.000+0000",
+  "Custom_ARR__c": 12000000,
+  "Custom_HealthScore__c": 72,
+  "Custom_Plan__c": "enterprise",
+  "Custom_ContractRenewal__c": "2026-04-01",
+  "Custom_LastLoginDate__c": "2026-02-28"
+}

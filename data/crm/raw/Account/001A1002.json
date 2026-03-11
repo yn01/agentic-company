@@ -1,0 +1,18 @@
+{
+  "attributes": { "type": "Account", "url": "/services/data/v58.0/sobjects/Account/001A1002" },
+  "Id": "001A1002",
+  "Name": "グローバル商事",
+  "Industry": "Retail",
+  "Type": "Customer",
+  "BillingCountry": "Japan",
+  "NumberOfEmployees": 120,
+  "AnnualRevenue": 150000000,
+  "OwnerId": "005U0001",
+  "CreatedDate": "2025-09-15T00:00:00.000+0000",
+  "LastModifiedDate": "2026-03-10T12:00:00.000+0000",
+  "Custom_ARR__c": 3600000,
+  "Custom_HealthScore__c": 91,
+  "Custom_Plan__c": "professional",
+  "Custom_ContractRenewal__c": "2026-10-01",
+  "Custom_LastLoginDate__c": "2026-03-10"
+}

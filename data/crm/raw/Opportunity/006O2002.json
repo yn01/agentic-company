@@ -1,0 +1,16 @@
+{
+  "attributes": { "type": "Opportunity", "url": "/services/data/v58.0/sobjects/Opportunity/006O2002" },
+  "Id": "006O2002",
+  "Name": "グローバル商事 - Enterprise Upsell",
+  "AccountId": "001A1002",
+  "StageName": "Needs Analysis",
+  "Amount": 2400000,
+  "CloseDate": "2026-06-30",
+  "Probability": 30,
+  "LeadSource": "Existing Customer",
+  "OwnerId": "005U0002",
+  "CreatedDate": "2026-03-01T00:00:00.000+0000",
+  "LastActivityDate": "2026-03-10T00:00:00.000+0000",
+  "Custom_DaysSinceLastContact__c": 1,
+  "Custom_NextAction__c": "needs_analysis_call"
+}

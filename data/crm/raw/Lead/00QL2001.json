@@ -1,0 +1,23 @@
+{
+  "attributes": { "type": "Lead", "url": "/services/data/v58.0/sobjects/Lead/00QL2001" },
+  "Id": "00QL2001",
+  "FirstName": "太郎",
+  "LastName": "田中",
+  "Company": "フューチャー工業",
+  "Title": "IT Manager",
+  "Industry": "Manufacturing",
+  "NumberOfEmployees": 200,
+  "Status": "Working - Contacted",
+  "LeadSource": "Web",
+  "Rating": "Hot",
+  "OwnerId": "005U0002",
+  "CreatedDate": "2026-02-01T00:00:00.000+0000",
+  "LastActivityDate": "2026-03-04",
+  "Custom_DemoCompleted__c": true,
+  "Custom_DemoDate__c": "2026-02-28",
+  "Custom_LeadScore__c": 78,
+  "Custom_PainPoints__c": "manual_reporting;lack_of_integration;scalability",
+  "Custom_CompetitorsEvaluating__c": "competitor_A;competitor_B",
+  "Custom_EstimatedDealValue__c": 4800000,
+  "Custom_ExpectedCloseDate__c": "2026-04-30"
+}

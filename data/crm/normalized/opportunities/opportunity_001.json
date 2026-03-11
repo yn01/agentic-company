@@ -1,0 +1,17 @@
+{
+  "id": "O-2001",
+  "name": "フューチャー工業 - Enterprise導入",
+  "account_id": null,
+  "lead_id": "L-2001",
+  "stage": "proposal_pending",
+  "amount": 4800000,
+  "close_date": "2026-04-30",
+  "probability": 60,
+  "source": "inbound_demo_request",
+  "timeline": {
+    "created": "2026-02-01",
+    "last_activity": "2026-03-04",
+    "days_since_last_contact": 7
+  },
+  "next_action": "send_proposal"
+}

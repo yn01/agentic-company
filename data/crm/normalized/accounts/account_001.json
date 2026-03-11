@@ -1,0 +1,23 @@
+{
+  "id": "A-1001",
+  "company_name": "テック株式会社",
+  "industry": "SaaS",
+  "size": "enterprise",
+  "employees": 500,
+  "arr": 12000000,
+  "plan": "enterprise",
+  "contract_start": "2025-04-01",
+  "contract_renewal": "2026-04-01",
+  "health_score": 72,
+  "primary_contact": {
+    "role": "CTO",
+    "department": "engineering"
+  },
+  "tags": ["high_value", "renewal_risk"],
+  "last_login": "2026-02-28",
+  "feature_usage": {
+    "core": 0.85,
+    "advanced": 0.40,
+    "integrations": 2
+  }
+}

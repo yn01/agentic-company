@@ -1,0 +1,24 @@
+{
+  "id": "EVT-3003",
+  "type": "upsell_signal",
+  "priority": "medium",
+  "timestamp": "2026-03-11T09:10:00+09:00",
+  "status": "pending",
+  "subject": {
+    "entity_type": "Account",
+    "entity_id": "001A1002",
+    "raw_ref": "../raw/Account/001A1002.json",
+    "normalized_ref": "../normalized/accounts/account_002.json"
+  },
+  "payload": {
+    "signal_type": "high_feature_usage",
+    "feature_usage_core": 0.95,
+    "feature_usage_advanced": 0.80,
+    "integrations_active": 5,
+    "recent_activities": ["requested_api_access", "added_3_new_users"],
+    "upsell_target_plan": "enterprise",
+    "estimated_expansion_arr": 2400000
+  },
+  "routing_hint": "sales_lead",
+  "required_actions": ["upsell_proposal", "roi_case_study"]
+}

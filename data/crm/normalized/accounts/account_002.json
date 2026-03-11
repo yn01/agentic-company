@@ -1,0 +1,23 @@
+{
+  "id": "A-1002",
+  "company_name": "グローバル商事",
+  "industry": "retail",
+  "size": "mid-market",
+  "employees": 120,
+  "arr": 3600000,
+  "plan": "professional",
+  "contract_start": "2025-10-01",
+  "contract_renewal": "2026-10-01",
+  "health_score": 91,
+  "primary_contact": {
+    "role": "VP of Sales",
+    "department": "sales"
+  },
+  "tags": ["upsell_candidate", "champion_engaged"],
+  "last_login": "2026-03-10",
+  "feature_usage": {
+    "core": 0.95,
+    "advanced": 0.80,
+    "integrations": 5
+  }
+}

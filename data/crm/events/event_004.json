@@ -1,0 +1,22 @@
+{
+  "id": "EVT-3004",
+  "type": "new_mql",
+  "priority": "medium",
+  "timestamp": "2026-03-11T09:15:00+09:00",
+  "status": "pending",
+  "subject": {
+    "entity_type": "Lead",
+    "entity_id": "00QL2002",
+    "raw_ref": "../raw/Lead/00QL2002.json",
+    "normalized_ref": "../normalized/leads/lead_002.json"
+  },
+  "payload": {
+    "mql_trigger": "content_download",
+    "content_downloaded": "ROI計算シート_BtoB-SaaS導入効果.pdf",
+    "lead_score": 45,
+    "qualification_needed": true,
+    "nurture_recommended": true
+  },
+  "routing_hint": "marketing_lead",
+  "required_actions": ["nurture_sequence_enroll", "lead_scoring_update", "sdr_alert"]
+}

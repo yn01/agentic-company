@@ -1,0 +1,22 @@
+{
+  "id": "EVT-3001",
+  "type": "lead_status_change",
+  "priority": "high",
+  "timestamp": "2026-03-11T09:00:00+09:00",
+  "status": "pending",
+  "subject": {
+    "entity_type": "Lead",
+    "entity_id": "00QL2001",
+    "raw_ref": "../raw/Lead/00QL2001.json",
+    "normalized_ref": "../normalized/leads/lead_001.json"
+  },
+  "payload": {
+    "previous_status": "demo_completed",
+    "new_status": "proposal_pending",
+    "days_since_last_contact": 7,
+    "deal_value": 4800000,
+    "trigger": "status_auto_updated_by_crm"
+  },
+  "routing_hint": "sales_lead",
+  "required_actions": ["create_proposal", "personalized_followup_email"]
+}
