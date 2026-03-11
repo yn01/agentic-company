@@ -355,6 +355,18 @@ if [ "$CRM_MODE" = true ]; then
   echo ""
   echo -e "${YELLOW}[6/6] CRMイベント監視を起動します...${NC}"
 
+  # data/crm/ 配下の必須ディレクトリを作成
+  mkdir -p "$PROJECT_ROOT/data/crm/events"
+  mkdir -p "$PROJECT_ROOT/data/crm/output"
+  mkdir -p "$PROJECT_ROOT/data/crm/campaigns"
+  mkdir -p "$PROJECT_ROOT/data/crm/normalized/accounts"
+  mkdir -p "$PROJECT_ROOT/data/crm/normalized/leads"
+  mkdir -p "$PROJECT_ROOT/data/crm/normalized/opportunities"
+  mkdir -p "$PROJECT_ROOT/data/crm/raw/Account"
+  mkdir -p "$PROJECT_ROOT/data/crm/raw/Lead"
+  mkdir -p "$PROJECT_ROOT/data/crm/raw/Opportunity"
+  echo -e "  ${GREEN}✓ data/crm/ ディレクトリ初期化完了${NC}"
+
   # data/crm/events/ の pending イベントをリセットするか確認
   PENDING_COUNT=$(grep -rl '"status": "processing"' "$PROJECT_ROOT/data/crm/events/" 2>/dev/null | wc -l | tr -d ' ')
   if [ "$PENDING_COUNT" -gt 0 ]; then
