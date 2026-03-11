@@ -89,10 +89,17 @@ rsync -a "$AGENTIC_COMPANY_ROOT/.claude/agents/" "$PRODUCT_PATH/.claude/agents/"
 cp "$AGENTIC_COMPANY_ROOT/organization.yaml" "$PRODUCT_PATH/organization.yaml"
 
 # scripts
-for script in start_worktrees.sh stop_worktrees.sh watch_inbox.sh sync_agents.sh; do
-  cp "$AGENTIC_COMPANY_ROOT/scripts/$script" "$PRODUCT_PATH/scripts/$script"
-  chmod +x "$PRODUCT_PATH/scripts/$script"
+for script in start_worktrees.sh stop_worktrees.sh watch_inbox.sh sync_agents.sh watch_crm_events.sh; do
+  if [ -f "$AGENTIC_COMPANY_ROOT/scripts/$script" ]; then
+    cp "$AGENTIC_COMPANY_ROOT/scripts/$script" "$PRODUCT_PATH/scripts/$script"
+    chmod +x "$PRODUCT_PATH/scripts/$script"
+  fi
 done
+
+# data/crm （モックデータ・イベントキュー）
+if [ -d "$AGENTIC_COMPANY_ROOT/data" ]; then
+  rsync -a "$AGENTIC_COMPANY_ROOT/data/" "$PRODUCT_PATH/data/"
+fi
 
 echo -e "${GREEN}  ✓ 同期完了${NC}"
 
